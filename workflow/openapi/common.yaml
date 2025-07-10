@@ -1,0 +1,33 @@
+components:
+  securitySchemes:
+    internalToken:
+      type: apiKey
+      in: header
+      name: internalToken
+    clientToken:
+      type: apiKey
+      in: header
+      name: clientToken
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string }
+        message: { type: string }
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid auth token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    BadRequest:
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"

@@ -1,0 +1,101 @@
+openapi: 3.0.3
+
+info:
+  title: Order Service API
+  version: 1.0.0
+  description: Order and product management. All endpoints require Client Token. Catalog varies by client's `shippingZone`.
+  contact:
+    name: Specmatic
+servers:
+  - url: http://localhost:9000
+  - url: http://host.docker.internal:9000
+tags:
+  - name: Orders
+  - name: Products
+
+paths:
+  /products:
+    get:
+      security:
+        - apiKeyAuth: []
+      operationId: getProducts
+      tags: [Products]
+      summary: Get products visible to caller
+      description: Returns a list of products accessible to caller's shipping zone
+      parameters:
+        - name: shippingZone
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductList"
+        "401":
+          $ref: "./common.yaml#/components/responses/Unauthorized"
+
+  /orders:
+    post:
+      operationId: createOrder
+      tags: [Orders]
+      summary: Create a new order
+      description: Create a new order using clientToken and a list of products
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderItem"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          $ref: "./common.yaml#/components/responses/BadRequest"
+        "401":
+          $ref: "./common.yaml#/components/responses/Unauthorized"
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      $ref: "./common.yaml#/components/securitySchemes/clientToken"
+
+  schemas:
+    Product:
+      type: object
+      required: [productId, name, price, quantity]
+      properties:
+        productId: { type: integer }
+        name: { type: string }
+        price: { type: number, format: double }
+        quantity: { type: integer, minimum: 0 }
+
+    ProductList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Product"
+
+    Order:
+      type: object
+      required: [orderId, total, productId, quantity]
+      properties:
+        orderId: { type: integer }
+        total: { type: number, format: double }
+        productId: { type: string }
+        quantity: { type: integer, minimum: 1 }
+
+    OrderItem:
+      type: object
+      required: [productId, quantity]
+      properties:
+        productId: { type: integer }
+        quantity: { type: integer, minimum: 1 }

@@ -1,0 +1,73 @@
+openapi: 3.0.3
+
+info:
+  title: Location and Auth Service API
+  version: 1.0.0
+  description: Provides location zone information for users. All endpoints require internal bearer token.
+  contact:
+    name: Specmatic
+
+servers:
+  - url: http://localhost:5000
+  - url: http://host.docker.internal:5000
+
+tags:
+  - name: Location
+  - name: Auth
+
+security:
+  - apiKeyAuth: []
+
+paths:
+  /location:
+    post:
+      operationId: getUserDetails
+      tags: [Location, Auth]
+      summary: Get user's details
+      description: Given the user's email and password, returns shipping zone, region, and pin code coverage, with client token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LocationRequest"
+      responses:
+        "200":
+          description: Location details found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationResponse"
+        "400":
+          $ref: "./common.yaml#/components/responses/BadRequest"
+        "401":
+          $ref: "./common.yaml#/components/responses/Unauthorized"
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      $ref: "./common.yaml#/components/securitySchemes/internalToken"
+
+  schemas:
+    LocationRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    LocationResponse:
+      type: object
+      required: [clientToken, shippingZone, country, region, pinCodeCoverage]
+      properties:
+        clientToken:
+          type: string
+        shippingZone:
+          type: string
+        country:
+          type: string
+        region:
+          type: string

@@ -1,0 +1,17 @@
+arazzo: 1.0.0
+sourceDescriptions:
+  - name: LocationApi
+    url: ./openapi/location.yaml
+    type: openapi
+  - name: OrderApi
+    url: ./openapi/order.yaml
+    type: openapi
+workflows:
+  - workflowId: PlaceOrder
+    steps:
+      - stepId: GetUserDetails
+        operationId: $sourceDescriptions.LocationApi.getUserDetails
+      - stepId: RetrieveProducts
+        operationId: $sourceDescriptions.OrderApi.getProducts
+      - stepId: CreateOrder
+        operationId: $sourceDescriptions.OrderApi.createOrder
