@@ -7,21 +7,21 @@ This project includes below components:
 - Frontend (built using **Svelte** and **Vite**)
   - [**UI that interacts with the two backend services**](./frontend)
 
-## Diagram of the workflow
+## Architecture / Flow
 
-TODO
+![Diagram](./assets/flow.svg)
 
 ## Running the Project
 
 Execute [`run.py`](./run.py) to get both Front-end and Back-end running.
 Please choose appropriate commands below as per your system setup.
 
+For Windows:
 ```shell
 python run.py
 ```
 
-OR 
-
+For Unix:
 ```shell
 python3 run.py
 ```
@@ -43,15 +43,63 @@ python3 run.py
 1. In the [UI](http://localhost:5173) please use username as `specmatic@test.com` and password as `specmatic`. This should show you a couple of products.
 2. Now you can log out and try again with username as `another@user.com` and password as `user`. This shows you an empty list.
 
-# Arazzo Specification
+## Arazzo Specification
 
-## Authoring the specification
+### Authoring the specification
 
-As you may already be aware, Arazzo specification helps tie together operations across several OpenAPI specifications into a workflow.
-In line with this we have created minimal Arazzo spec [`./workflow/location_order_workflow.arazzo.yaml`](./workflow/location_order_workflow.arazzo.yaml), which lists operations from below OpenAPI specs.
+As you may already be aware, Arazzo specification helps tie together operations across several OpenAPI specifications into a workflow.<br>
+In line with this we have created minimal Arazzo spec [`location_order_workflow.arazzo.yaml`](./workflow/location_order_workflow.arazzo.yaml), which lists operations from below OpenAPI specs.
+
 1. [order.yaml](workflow/openapi/order.yaml)
 2. [location.yaml](workflow/openapi/location.yaml)
 
-To create a full Arazzo spec from the minimal spec mentioned above, run the Python script located at [`workflow/run.py`](./workflow/run.py) and select the extrapolate option.
+To generate a complete Arazzo specification from the aforementioned minimal specification,
+execute the Python script found at [`workflow/run.py`](./workflow/run.py) and select the extrapolate option. 
 
-Now you will see a full Arazzo spec generated along with the input JSON (TODO: add links for the files).
+Upon running this script, you will find two new files created in the [`/workflow/output`](./workflow/output) directory:
+1. **Extrapolated Specification:** [`location_order_workflow.arazzo_extrapolated.arazzo.yaml`](./workflow/output/location_order_workflow.arazzo_extrapolated.arazzo.yaml)
+2. **Generated Inputs File:** [`location_order_workflow.arazzo_extrapolated.arazzo_input.json`](./workflow/output/location_order_workflow.arazzo_extrapolated.arazzo_input.json)
+
+### Validating the Specification
+
+Execute the Python script found at [`workflow/run.py`](./workflow/run.py) and choose the validate option.<br>
+This will verify that all parameters, request bodies, schemas, outputs, and actions are accurately defined in accordance with the OpenAPI specifications.<br>
+This will also run a loop-test with mocked openApi servers using `specmatic` and generate a full HTML Report at [`workflow/build/reports/specmatic/html/index.html`](./workflow/build/reports/specmatic/html/index.html).
+
+### Modifying Specification Inputs
+
+The generated inputs file located at [`location_order_workflow.arazzo_extrapolated.arazzo_input.json`](./workflow/output/location_order_workflow.arazzo_extrapolated.arazzo_input.json) can be adjusted to align with the dummy data utilized in the backend services. We can introduce additional combinations to encompass all scenarios. 
+
+For instance, the products array being empty or containing one or more products is contingent upon the user and can be represented as follows:
+
+```json
+{
+    "PlaceOrder": {
+        "DEFAULT": {
+            "GetUserDetails": {
+                "email": "specmatic@test.com",
+                "password": "specmatic",
+                "internalToken": "API-TOKEN"
+            }
+        },
+        "RetrieveProducts.IsArrayEmpty": {
+            "$failureMessage": "Expected not to find any products for another@user, as they belong to B Zone",
+            "GetUserDetails": {
+                "email": "another@user.com",
+                "password": "user"
+            }
+        }
+    }
+}
+```
+
+### Running the Workflow
+To initiate the backend services, first activate the virtual environment and execute the Python script found at [`backend/run.py`](./backend/run.py). <br>
+After that, run the Python script located at [`workflow/run.py`](./workflow/run.py) and choose the test option. <br>
+This action will initiate the Arazzo Workflow Test and produce an HTML report at [`workflow/build/reports/specmatic/html/index.html`](./workflow/build/reports/specmatic/html/index.html).
+
+### Running the Mock
+
+Execute the Python script located at [`workflow/run.py`](./workflow/run.py) and select the mock option. <br>
+Subsequently, start the frontend by running the command `npm run dev -- --open` in the [`frontend`](./frontend/) directory. <br>
+When you log in with `specmatic@test.com`, you should see a list of products, while logging in with `another@user.com` will display an empty list.
