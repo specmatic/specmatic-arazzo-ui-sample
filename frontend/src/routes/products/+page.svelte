@@ -8,7 +8,7 @@
 
   onMount(async () => {
     const { clientToken, shippingZone } = get(auth);
-    const res = await fetch(`http://localhost:9000/products?shippingZone=${shippingZone}`, {
+    const res = await fetch(`http://localhost:3000/products?shippingZone=${shippingZone}`, {
       headers: { clientToken: clientToken },
     });
     products = await res.json();
@@ -17,7 +17,7 @@
 
   async function orderProduct(product: Product) {
     const { clientToken } = get(auth);
-    const res = await fetch("http://localhost:9000/orders", {
+    const res = await fetch("http://localhost:3000/orders", {
       method: "POST",
       headers: { clientToken: clientToken, "Content-Type": "application/json" },
       body: JSON.stringify({ productId: product.productId, quantity: product.quantity }),

@@ -11,7 +11,7 @@ HTML_REPORT = ROOT_DIR / "build" / "reports" / "specmatic" / "html" / "index.htm
 def run_arazzo_command(name: str, command: list[str]):
     print(f"\n=== Running: {name} ===")
     final_command = " ".join([name, *command])
-    expose = "--network host" if name != "validate" else "-p 9000:9000 -p 5000:5000"
+    expose = "--network host" if name != "validate" else "-p 3000:3000 -p 5000:5000"
     try:
         docker_command = f"docker run --rm {expose} -v {ROOT_DIR}:/usr/src/app specmatic/specmatic-arazzo:latest {final_command}"
         subprocess.run(docker_command, shell=True, check=True)  # noqa: S602
