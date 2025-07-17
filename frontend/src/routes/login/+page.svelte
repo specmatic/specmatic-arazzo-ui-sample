@@ -7,7 +7,7 @@
 
   async function handleLogin(e: SubmitEvent) {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/location", {
+    const res = await fetch("http://localhost:3001/location", {
       method: "POST",
       headers: { "Content-Type": "application/json", internalToken: "API-TOKEN" },
       body: JSON.stringify({ email, password }),

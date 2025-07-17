@@ -73,7 +73,7 @@ if __name__ == "__main__":
 
     services = {
         "UUID Service": [
-            sys.executable, "-m", "uvicorn", "location_api:app", "--host", "127.0.0.1", "--port", "5000"
+            sys.executable, "-m", "uvicorn", "location_api:app", "--host", "127.0.0.1", "--port", "3001"
         ],
         "Order Service": [
             sys.executable, "-m", "uvicorn", "order_api:app", "--host", "127.0.0.1", "--port", "3000"
