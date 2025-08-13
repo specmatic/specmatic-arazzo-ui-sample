@@ -2,7 +2,7 @@
 
 [Specmatic Arazzo](https://hub.docker.com/extensions/specmatic/specmatic-docker-desktop-extension) is a **NO-CODE** workflow testing tool that allows users to efficiently **author**, **validate**, **test**, and **mock** workflows, leveraging [Arazzo API Specifications](https://spec.openapis.org/arazzo/latest.html)
 
-This demo project showcases how to author a workflow specification using **Specmatic Arazzo** via **Specmatic Studio** interactively with a drag‑and‑drop interface, validate the workflow, and test it against two microservices [**Order API**](./backend/order_api) and the [**Location API**](./backend/location_api), We will also demonstrate how to mock the workflow so that the [**Frontend**](./frontend) can consume it independently from these microservices without a single line of code.
+This demo project showcases how to author a workflow specification using **Specmatic Arazzo** via [**Specmatic Studio**](https://specmatic.io/specmatic-studio/) interactively with a drag‑and‑drop interface, validate the workflow, and test it against two microservices [**Order API**](./backend/order_api) and the [**Location API**](./backend/location_api), We will also demonstrate how to mock the workflow so that the [**Frontend**](./frontend) can consume it independently from these microservices without a single line of code.
 
 ## 🏗️ Application Architecture
 
