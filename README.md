@@ -2,7 +2,13 @@
 
 [Specmatic Arazzo](https://hub.docker.com/extensions/specmatic/specmatic-docker-desktop-extension) is a **NO-CODE** workflow testing tool that allows users to efficiently **author**, **validate**, **test**, and **mock** workflows, leveraging [Arazzo API Specifications](https://spec.openapis.org/arazzo/latest.html)
 
-This demo project showcases how to author a workflow specification using **Specmatic Arazzo** via [**Specmatic Studio**](https://specmatic.io/specmatic-studio/) interactively with a drag‑and‑drop interface, validate the workflow, and test it against two microservices [**Order API**](./backend/order_api) and the [**Location API**](./backend/location_api), We will also demonstrate how to mock the workflow so that the [**Frontend**](./frontend) can consume it independently from these microservices without a single line of code.
+## 🎬 Video Walkthrough
+
+[![Visual API Workflow Mocking and Testing with Specmatic and Arazzo API Specifications](https://img.youtube.com/vi/jrkFKh37_N0/hqdefault.jpg)](https://youtu.be/jrkFKh37_N0)
+
+This video uses this very same demo project repo to showcases how to author a workflow specification using **Specmatic Arazzo** via [**Specmatic Studio**](https://specmatic.io/specmatic-studio/) interactively with a drag‑and‑drop interface, validate the workflow, and test it against two microservices [**Order API**](./backend/order_api) and the [**Location API**](./backend/location_api), We will also demonstrate how to mock the workflow so that the [**Frontend**](./frontend) can consume it independently from these microservices without a single line of code.
+
+You can also use this repo to follow along with the video and learn about the various capabilities. Please do read through the detailed instructions below to know more.
 
 ## 🏗️ Application Architecture
 
@@ -31,10 +37,6 @@ git clone https://github.com/specmatic/specmatic-arazzo-ui-sample
 Launch it within the Specmatic Arazzo UI Sample project directory as shown in the image below
 
 ![Specmatic Docker Extension](./assets/studio.png)
-
-## 🎬 Video Walkthrough
-
-[![Visual API Workflow Mocking and Testing with Specmatic and Arazzo API Specifications](https://img.youtube.com/vi/jrkFKh37_N0/hqdefault.jpg)](https://youtu.be/jrkFKh37_N0)
 
 ## 📝 Flow
 
