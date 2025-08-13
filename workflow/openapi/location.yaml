@@ -16,7 +16,7 @@ tags:
   - name: Auth
 
 security:
-  - apiKeyAuth: []
+  - internalToken: []
 
 paths:
   /location:
@@ -39,14 +39,16 @@ paths:
               schema:
                 $ref: "#/components/schemas/LocationResponse"
         "400":
-          $ref: "./common.yaml#/components/responses/BadRequest"
+          $ref: "#/components/responses/BadRequest"
         "401":
-          $ref: "./common.yaml#/components/responses/Unauthorized"
+          $ref: "#/components/responses/Unauthorized"
 
 components:
   securitySchemes:
-    apiKeyAuth:
-      $ref: "./common.yaml#/components/securitySchemes/internalToken"
+    internalToken:
+        type: apiKey
+        in: header
+        name: internalToken
 
   schemas:
     LocationRequest:
@@ -71,3 +73,25 @@ components:
           type: string
         region:
           type: string
+    
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string }
+        message: { type: string }
+  
+  responses:
+    Unauthorized:
+      description: Missing or invalid auth token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    BadRequest:
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"

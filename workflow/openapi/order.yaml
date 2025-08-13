@@ -17,7 +17,7 @@ paths:
   /products:
     get:
       security:
-        - apiKeyAuth: []
+        - clientToken: []
       operationId: getProducts
       tags: [Products]
       summary: Get products visible to caller
@@ -36,7 +36,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ProductList"
         "401":
-          $ref: "./common.yaml#/components/responses/Unauthorized"
+          $ref: "#/components/responses/Unauthorized"
 
   /orders:
     post:
@@ -45,7 +45,7 @@ paths:
       summary: Create a new order
       description: Create a new order using clientToken and a list of products
       security:
-        - apiKeyAuth: []
+        - clientToken: []
       requestBody:
         required: true
         content:
@@ -60,14 +60,16 @@ paths:
               schema:
                 $ref: "#/components/schemas/Order"
         "400":
-          $ref: "./common.yaml#/components/responses/BadRequest"
+          $ref: "#/components/responses/BadRequest"
         "401":
-          $ref: "./common.yaml#/components/responses/Unauthorized"
+          $ref: "#/components/responses/Unauthorized"
 
 components:
   securitySchemes:
-    apiKeyAuth:
-      $ref: "./common.yaml#/components/securitySchemes/clientToken"
+    clientToken:
+      type: apiKey
+      in: header
+      name: clientToken
 
   schemas:
     Product:
@@ -99,3 +101,25 @@ components:
       properties:
         productId: { type: integer }
         quantity: { type: integer, minimum: 1 }
+    
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string }
+        message: { type: string }
+  
+  responses:
+    Unauthorized:
+      description: Missing or invalid auth token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    BadRequest:
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
