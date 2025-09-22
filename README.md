@@ -71,8 +71,8 @@ python3 run.py
    3. Opens the frontend in a web browser.
 
 ### Verify the setup
-1. In the [UI](http://localhost:5173) please use username as `specmatic@test.com` and password as `specmatic`. This should show you a couple of products.
-2. Now you can log out and try again with username as `another@user.com` and password as `user`. This shows you an empty list.
+1. In the [UI](http://localhost:5173) please use username as `test@specmatic.io` and password as `specmatic`. This should show you a couple of products.
+2. Now you can log out and try again with username as `random@specmatic.io` and password as `user`. This shows you an empty list.
 
 ### Input for backend workflow testing
 
@@ -81,18 +81,34 @@ python3 run.py
     "PlaceOrder": {
         "DEFAULT": {
             "GetUserDetails": {
-                "email": "specmatic@test.com",
+                "email": "test@specmatic.io",
                 "password": "specmatic",
                 "internalToken": "API-TOKEN"
             }
         },
         "RetrieveProducts.IsArrayEmpty": {
-            "$failureMessage": "Expected not to find any products for another@user, as they belong to B Zone",
+            "$failureMessage": "Expected not to find any products for random@specmatic.io, as they belong to B Zone",
             "GetUserDetails": {
-                "email": "another@user.com",
+                "email": "random@specmatic.io",
                 "password": "user"
             }
         }
     }
 }
+```
+
+### Start only the frontend
+```shell
+cd frontend
+npm install
+npm run dev
+```
+
+### Test the backend
+```shell
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+pip install -r requirements.txt
+python3 run.py
 ```

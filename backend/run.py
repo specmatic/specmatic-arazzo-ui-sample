@@ -27,8 +27,8 @@ def initialize_database():
     ]
 
     users = [
-        User(id = 1, email="specmatic@test.com", password="specmatic", shipping_zone="A", country="IN", region="HYD"),  # noqa: S106
-        User(id = 2, email="another@user.com", password="user", shipping_zone="B", country="IN", region="DEL"),  # noqa: S106
+        User(id = 1, email="test@specmatic.io", password="specmatic", shipping_zone="A", country="IN", region="HYD"),  # noqa: S106
+        User(id = 2, email="random@specmatic.io", password="user", shipping_zone="B", country="IN", region="DEL"),  # noqa: S106
     ]
 
     with Session(order_engine) as session:
