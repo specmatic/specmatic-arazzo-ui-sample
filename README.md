@@ -97,18 +97,29 @@ python3 run.py
 }
 ```
 
-### Start only the frontend
+### Running the frontend manually
 ```shell
 cd frontend
 npm install
 npm run dev
 ```
 
-### Test the backend
+### Running the backend manually
+
+- On Unix machines:
 ```shell
 cd backend
 python3 -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+source venv/bin/activate
 pip install -r requirements.txt
 python3 run.py
+```
+
+- On Windows:
+```shell
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python run.py
 ```
